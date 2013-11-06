@@ -5,8 +5,6 @@ var CHANGE_ATTRS = ['id', 'name'];
 
 
 function FormSetMagic(forms, options) {
-	var this_ = this;  // ability to use 'this' in other scopes
-
 	this.forms = forms;
 
 	// parse options
@@ -34,7 +32,6 @@ function FormSetMagic(forms, options) {
 		$('<button type="button" class="add_form"></button>');
 	if (!this.options['add_button'])
 		this.add_button.text(this.options['add_label']);
-	this.add_button.on('click', function () { this_.add_form() });
 }
 
 FormSetMagic.prototype.add_form = function () {
@@ -60,15 +57,19 @@ FormSetMagic.prototype.add_form = function () {
 			);
 	});
 
+	// render
+	this.forms.last().after(new_form);
+
 	// add the raw form element
 	this.forms.push(new_form[0]);
-
-	// render
-	this.add_button.before(new_form);
 };
 
 FormSetMagic.prototype.render = function () {
-	this.forms.last().after(this.add_button);
+	var this_ = this;
+	this.add_button.on('click', function () { this_.add_form() });
+
+	if (!this.options.add_button)
+		this.forms.last().after(this.add_button);
 };
 
 
