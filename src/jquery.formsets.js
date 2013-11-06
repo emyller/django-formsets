@@ -34,6 +34,11 @@ function FormSetMagic(forms, options) {
 		this.add_button.text(this.options['add_label']);
 }
 
+FormSetMagic.prototype.update = function () {
+	// update TOTAL_FORMS
+	$('[name="'+this.form_prefix+'-TOTAL_FORMS"]').val(this.forms.length);
+};
+
 FormSetMagic.prototype.add_form = function () {
 	var new_form = this.base_form.clone();
 	var form_n = ++$(':input', this.forms.last()).attr('name').match(RE_ID)[1];
@@ -44,6 +49,7 @@ FormSetMagic.prototype.add_form = function () {
 	new_form.append(rm_button);
 	var this_ = this; rm_button.on('click', function () {
 		this_.forms = this_.forms.not(new_form);
+		this_.update();
 		new_form.remove();
 	});
 
@@ -62,6 +68,7 @@ FormSetMagic.prototype.add_form = function () {
 
 	// add the raw form element
 	this.forms.push(new_form[0]);
+	this.update();
 };
 
 FormSetMagic.prototype.render = function () {
