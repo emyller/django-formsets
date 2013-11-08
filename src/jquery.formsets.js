@@ -25,7 +25,9 @@ function FormSetMagic(forms, options) {
 
 	// the first form is used as a base
 	this.base_form = $(this.forms[0]).clone();
-	$(':input', this.base_form).val(null);  // empty all fields
+
+	// empty all fill-able fields
+	$(':input:not([type="hidden"])', this.base_form).val(null);
 
 	// the 'add' button
 	this.add_button = this.options['add_button'] ||
