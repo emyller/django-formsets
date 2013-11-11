@@ -11,7 +11,8 @@ function FormSetMagic(forms, options) {
 	this.options = $.extend({
 		'add_button': null,  // an existent add button element
 		'add_label': 'Add',  // 'add' label
-		'remove_label': 'Remove'  // 'remove' label
+		'remove_label': 'Remove',  // 'remove' label
+		'form_added': function () {}  // 'form added' callback
 	}, options);
 
 	// try to retrieve the prefix used in the forms
@@ -71,6 +72,9 @@ FormSetMagic.prototype.add_form = function () {
 	// add the raw form element
 	this.forms.push(new_form[0]);
 	this.update();
+
+	// call the 'form added' callback
+	this.options.form_added();
 };
 
 FormSetMagic.prototype.render = function () {
