@@ -30,6 +30,9 @@ function FormSetMagic(forms, options) {
 	// empty all fill-able fields
 	$(':input:not([type="hidden"])', this.base_form).val(null);
 
+	// drop ID field
+	$(':input[name$="id"]', this.base_form).remove();
+
 	// the 'add' button
 	this.add_button = this.options['add_button'] ||
 		$('<button type="button" class="add_form"></button>');
