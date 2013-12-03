@@ -11,6 +11,7 @@ function FormSetMagic(forms, options) {
 	this.options = $.extend({
 		'add_button': null,  // an existent add button element
 		'add_label': 'Add',  // 'add' label
+		'remove_button': '',  // 'remove button' (CSS selector)
 		'remove_label': 'Remove',  // 'remove' label
 		'form_added': function () {}  // 'form added' callback
 	}, options);
@@ -50,9 +51,13 @@ FormSetMagic.prototype.add_form = function () {
 	var form_n = ++$(':input', this.forms.last()).attr('name').match(RE_ID)[1];
 
 	// the 'remove' button
-	var rm_button = $('<button type="button" class="rm_form"></button>');
-	rm_button.text(this.options['remove_label']);
-	new_form.append(rm_button);
+	var rm_button = this.options['remove_button']
+		? $(this.options['remove_button'], new_form)
+		: $(  // I hate putting markup into JavaScript. Thanks, jQuery.
+			'<button type="button" class="rm_form">' +
+			this.options['remove_label'] +
+			'</button>');
+	this.options['remove_button'] || new_form.append(rm_button);
 	var this_ = this; rm_button.on('click', function () {
 		this_.forms = this_.forms.not(new_form);
 		this_.update();
